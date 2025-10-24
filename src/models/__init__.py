@@ -1,1 +1,0 @@
-# Object models in Pydantic
