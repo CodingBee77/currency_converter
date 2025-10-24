@@ -1,4 +1,4 @@
-# Currency Converter
+# Currency Converter 💸
 
 A Python-based currency converter application that fetches exchange rates and performs currency conversions. The project includes unit and integration tests to ensure reliability.
 
@@ -8,6 +8,14 @@ A Python-based currency converter application that fetches exchange rates and pe
 - Supports mock data for testing and offline usage.
 - Converts amounts between different currencies.
 - Includes unit and integration tests using the `pytest` library.
+
+## Project structure
+
+src/: Contains the main application code.
+
+tests/: Contains unit and integration tests.
+
+main.py: Entry point for the application.
 
 ## Requirements
 
@@ -20,3 +28,30 @@ A Python-based currency converter application that fetches exchange rates and pe
    ```bash
    git clone <repository-url>
    cd <repository-folder>
+   
+
+2. Install dependencies:  
+```commandline
+pip install -r requirements.txt
+```
+
+
+3. Set up the .env file for the API key (optional):
+
+BASE_URL=https://api.exchangeratesapi.io/v1/latest
+API_KEY=your_api_key_here
+
+
+4. Usage
+Run the application:
+```commandline
+python main.py
+```
+
+5. Run tests:
+```commandline
+python -m pytest
+```
+
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
