@@ -1,7 +1,6 @@
 import pytest
 from src.currency_converter import get_currency, convert_currency
 
-# Mock rates for testing
 #TODO: use pytest fixtures for mock data
 mock_rates = {
     "USD": 1.035936,

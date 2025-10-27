@@ -1,5 +1,3 @@
-
-
 def get_currency(currency: str, rates: dict) -> float:
     currency: str = currency.upper()
     if currency in rates.keys():
