@@ -1,5 +1,6 @@
 import pytest
 
+
 @pytest.fixture
 def mock_rates():
     return {
@@ -20,6 +21,7 @@ def another_mock_rates():
         "JPY": 158.099455,
         "AUD": 1.487268,
     }
+
 
 @pytest.fixture
 def different_mock_rates():
