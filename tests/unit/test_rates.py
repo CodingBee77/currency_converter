@@ -1,7 +1,3 @@
-import os
-from unittest import mock
-
-import pytest
 from src.utils.rates import get_rates
 
 
