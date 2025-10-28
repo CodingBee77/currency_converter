@@ -1,6 +1,7 @@
 import json
 import os
 from typing import Final
+
 import requests
 from dotenv import load_dotenv
 
@@ -10,7 +11,7 @@ BASE_URL: Final[str] = os.environ.get("BASE_URL")
 
 
 def get_rates(mock: bool = False) -> dict:
-    rates_path = os.path.join(os.path.dirname(__file__), 'rates.json')
+    rates_path = os.path.join(os.path.dirname(__file__), "rates.json")
     if mock:
         with open(rates_path, "r") as file:
             return json.load(file)

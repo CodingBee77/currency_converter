@@ -13,4 +13,3 @@ def convert_currency(amount: float, base: str, vs: str, rates: dict) -> float:
     conversion: float = round((vs_rate / base_rate) * amount, 2)
     print(f"{amount:,.2f} ({base}) is: {conversion:,.2f} ({vs})")
     return conversion
-
