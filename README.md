@@ -42,7 +42,7 @@ BASE_URL=https://api.exchangeratesapi.io/v1/latest
 API_KEY=your_api_key_here
 
 
-4. Usage
+4. Usage of the script
 Run the application:
 ```commandline
 python main.py
@@ -51,6 +51,12 @@ python main.py
 5. Run tests:
 ```commandline
 python -m pytest
+```
+
+6. Run the application with mock data:
+```bash
+cd src
+uvicorn main:app --reload
 ```
 
 License
