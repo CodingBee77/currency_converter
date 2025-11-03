@@ -27,7 +27,6 @@ class ConversionBase(BaseModel):
     base_currency: str = Field(..., max_length=3, description="Base currency code, e.g., 'EUR'")
     target_currency: str = Field(..., max_length=3, description="Target currency code, e.g., 'USD'")
     amount: float = Field(..., description="Amount to be converted")
-    result: float = Field(..., description="Result of the conversion")
 
     class Config:
         orm_mode = True
@@ -35,6 +34,10 @@ class ConversionBase(BaseModel):
 
 class ConversionCreate(ConversionBase):
     pass
+
+
+class Conversion(ConversionBase):
+    result: float = Field(..., description="Result of the conversion")
 
 
 class ConversionDelete(BaseModel):
