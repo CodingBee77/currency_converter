@@ -4,7 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from starlette import status
 
-import models, schemas
+import models
+import schemas
 from currency_converter import convert_currency
 from database import get_db
 from utils.rates import get_rates
