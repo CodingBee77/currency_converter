@@ -6,7 +6,8 @@ def get_currency(currency: str, rates: dict) -> float:
         raise ValueError(f"'{currency}' is not a valid currency.")
 
 
-def convert_currency(amount: float, base: str, vs: str, rates: dict) -> float:
+# TODO: unify arguments with schemas.ConversionBase
+def convert_currency(base: str, vs: str, amount: float, rates: dict) -> float:
     base_rate: float = get_currency(base, rates)
     vs_rate: float = get_currency(vs, rates)
 
