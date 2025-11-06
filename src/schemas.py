@@ -1,7 +1,10 @@
 from pydantic import BaseModel, Field
 
 
+# TODO: Add validation to ensure currency codes are valid ISO 4217 codes.
+# TODO: Add validation to ensure exchange rates are positive numbers.
 class CurrencyBase(BaseModel):
+    """Base schema for currency information."""
     code: str = Field(..., max_length=3, description="Currency code, e.g., 'USD'")
     name: str = Field(
         ...,
@@ -40,6 +43,7 @@ class CurrencyUpdate(BaseModel):
 
 
 class ConversionBase(BaseModel):
+    """Base schema for currency conversion information."""
     base_currency: str = Field(
         ..., max_length=3, description="Base currency code, e.g., 'EUR'"
     )
@@ -53,14 +57,17 @@ class ConversionBase(BaseModel):
 
 
 class ConversionCreate(ConversionBase):
+    """Used when creating a new conversion."""
     pass
 
 
 class Conversion(ConversionBase):
+    """Schema for currency conversion with result included."""
     result: float = Field(..., description="Result of the conversion")
 
 
 class ConversionDelete(BaseModel):
+    """Used when deleting a conversion record."""
     id: int = Field(..., description="ID of the conversion record to delete")
 
     class Config:
