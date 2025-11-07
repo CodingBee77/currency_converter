@@ -14,8 +14,10 @@ def get_rates(mock: bool = False) -> dict:
     rates_path = os.path.join(os.path.dirname(__file__), "rates.json")
     if mock:
         with open(rates_path, "r") as file:
-            return json.load(file)
+            rates_response = json.load(file)
+            return rates_response.get("rates")
 
+    # TODO: Remove it and use rates from database
     # Fetch API_KEY dynamically at runtime
     api_key = os.environ.get("API_KEY")
     payload: dict = {"access_key": api_key}

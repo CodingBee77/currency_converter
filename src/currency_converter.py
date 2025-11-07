@@ -1,5 +1,5 @@
 def get_currency(currency: str, rates: dict) -> float:
-    currency: str = currency.upper()
+    currency = currency.upper()
     if currency in rates.keys():
         return rates.get(currency)
     else:
