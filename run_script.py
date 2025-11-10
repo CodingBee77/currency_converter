@@ -6,8 +6,8 @@ def main():
     data: dict = get_rates(mock=True)
     rates: dict = data.get("rates")
 
-    convert_currency(base="EUR", vs="SEK", amount=100, rates=rates)
-    convert_currency(base="USD", vs="GBP", amount=50, rates=rates)
+    convert_currency(base_currency="EUR", target_currency="SEK", amount=100, rates=rates)
+    convert_currency(base_currency="USD", target_currency="GBP", amount=50, rates=rates)
 
 
 if __name__ == "__main__":
