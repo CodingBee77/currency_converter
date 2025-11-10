@@ -63,6 +63,7 @@ class ConversionCreate(ConversionBase):
 
 class Conversion(ConversionBase):
     """Schema for currency conversion with result included."""
+    id: int = Field(..., description="ID of the conversion record")
     result: float = Field(..., description="Result of the conversion")
 
 
