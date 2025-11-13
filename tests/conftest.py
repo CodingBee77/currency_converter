@@ -3,32 +3,34 @@ import pytest
 
 @pytest.fixture
 def mock_rates():
-    return {
-        "USD": 1.035936,
-        "EUR": 1.0,
-        "GBP": 0.834578,
-        "JPY": 158.099455,
-        "INR": 90.706235,
-    }
+    return [
+        {"code": "USD", "name": "TBD", "rate": 1.035936},
+        {"code": "EUR", "name": "TBD", "rate": 1.0},
+        {"code": "GBP", "name": "TBD", "rate": 0.834578},
+        {"code": "JPY", "name": "TBD", "rate": 158.099455},
+        {"code": "INR", "name": "TBD", "rate": 90.706235}
+    ]
 
 
 @pytest.fixture
 def another_mock_rates():
-    return {
-        "EUR": 1.0,
-        "USD": 1.035936,
-        "GBP": 0.834578,
-        "JPY": 158.099455,
-        "AUD": 1.487268,
-    }
+    return [
+        {"code": "HKD", "name": "TBD", "rate": 8.065967},
+        {"code": "EUR", "name": "TBD", "rate": 1.0},
+        {"code": "CNH", "name": "TBD", "rate": 7.557405},
+        {"code": "JPY", "name": "TBD", "rate": 158.099455},
+        {"code": "AUD", "name": "TBD", "rate": 1.487268}
+    ]
 
 
 @pytest.fixture
 def different_mock_rates():
-    return {
-        "EUR": 1.0,
-        "USD": 1.035936,
-        "GBP": 0.834578,
-        "JPY": 158.099455,
-        "CNY": 7.553429,
-    }
+    return [
+        {"code": "EUR", "name": "TBD", "rate": 1.0},
+        {"code": "USD", "name": "TBD", "rate": 1.035936},
+        {"code": "GBP", "name": "TBD", "rate": 0.834578},
+        {"code": "AUD", "name": "TBD", "rate": 1.487268},
+        {"code": "CNY", "name": "TBD", "rate": 7.553429},
+        {"code": "JPY", "name": "TBD", "rate": 158.099455}
+    ]
+
