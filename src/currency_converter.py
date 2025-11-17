@@ -12,8 +12,8 @@ def get_currency(currency: str, rates: List[dict]) -> float:
 
 
 def convert_currency(base_currency: str, target_currency: str, amount: float, rates: List[dict]) -> float:
-    base_rate: float = get_currency(base_currency, rates)
-    target_rate: float = get_currency(target_currency, rates)
+    base_rate = get_currency(base_currency, rates)
+    target_rate = get_currency(target_currency, rates)
 
     conversion: float = round((target_rate / base_rate) * amount, 2)
     print(f"{amount:,.2f} ({base_currency}) is: {conversion:,.2f} ({target_currency})")
