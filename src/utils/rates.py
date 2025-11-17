@@ -16,7 +16,7 @@ def get_rates(mock: bool = False) -> List[dict]:
     if mock:
         with open(rates_path, "r") as file:
             rates_response = json.load(file)
-            return rates_response.get("rates")
+            return rates_response
 
     # TODO: Change to actual external API call in the future
     rates_response = requests.get(f"{API_URL}/currencies/").json()

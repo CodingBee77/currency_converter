@@ -1,5 +1,3 @@
-from typing import List
-
 from src.currency_converter import convert_currency
 from src.utils.rates import get_rates
 
