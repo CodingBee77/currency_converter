@@ -35,13 +35,6 @@ main.py: Entry point for the application.
 pip install -r requirements.txt
 ```
 
-
-3. Set up the .env file for the API key (optional):
-
-BASE_URL=https://api.exchangeratesapi.io/v1/latest
-API_KEY=your_api_key_here
-
-
 4. Usage of the script
 Run the application:
 ```commandline

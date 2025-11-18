@@ -18,7 +18,7 @@ def test_get_rates_mock_true_valid():
 @pytest.mark.skipif(
     True,
     reason="Skipping test to avoid external API call during testing. "
-    "Uncomment this decorator to run the test when the external API is available.")
+    "Uncomment this decorator to run the test when the API is available.")
 def test_get_rates_mock_is_false():
     rates = get_rates(mock=False)
     index = random.randrange(0, len(rates))

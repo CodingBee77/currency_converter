@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_URL: Final[str] = os.environ.get("BASE_URL")
 API_URL: Final[str] = os.environ.get("API_URL")
 
 
