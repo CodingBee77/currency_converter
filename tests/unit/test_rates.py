@@ -31,4 +31,4 @@ def test_get_rates_mock_is_false():
 
 def test_get_rates_mock_is_false_no_response():
     with pytest.raises(requests.exceptions.ConnectionError):
-        rates = get_rates(mock=False)
+        get_rates(mock=False)
