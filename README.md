@@ -49,7 +49,7 @@ python -m pytest
 6. Run the application with mock data:
 ```bash
 cd src
-uvicorn main:app --reload
+uvicorn src.main:app --reload
 ```
 
 License
