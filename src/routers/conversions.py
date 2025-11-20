@@ -37,7 +37,7 @@ def create_conversion(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)
         ) from e
-    new_conversion = models.Conversion(**conversion.dict(), result=result)
+    new_conversion = models.Conversion(**conversion.model_dump(), result=result)
     db.add(new_conversion)
     db.commit()
     db.refresh(new_conversion)
