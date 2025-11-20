@@ -26,12 +26,17 @@ def create_conversion(
     conversion: schemas.ConversionCreate, db: Session = Depends(get_db)
 ):
     mock_rates = get_rates(mock=True)
-    result = convert_currency(
-        conversion.base_currency,
-        conversion.target_currency,
-        conversion.amount,
-        mock_rates,
-    )
+    try:
+        result = convert_currency(
+            conversion.base_currency,
+            conversion.target_currency,
+            conversion.amount,
+            mock_rates,
+        )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)
+        ) from e
     new_conversion = models.Conversion(**conversion.dict(), result=result)
     db.add(new_conversion)
     db.commit()
