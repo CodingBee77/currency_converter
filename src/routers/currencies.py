@@ -4,9 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from starlette import status
 
-import models
-import schemas
-from database import get_db
+from src import models, schemas
+from src.database import get_db
 
 router = APIRouter(prefix="/currencies", tags=["currencies"])
 

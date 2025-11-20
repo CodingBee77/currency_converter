@@ -1,6 +1,6 @@
 from sqlalchemy import TIMESTAMP, Column, Float, Integer, String, text
 
-from database import Base
+from src.database import Base
 
 
 class Currency(Base):
