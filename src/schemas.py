@@ -1,10 +1,12 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 # TODO: Add validation to ensure currency codes are valid ISO 4217 codes.
 # TODO: Add validation to ensure exchange rates are positive numbers.
 class CurrencyBase(BaseModel):
     """Base schema for currency information."""
+
+    model_config = ConfigDict(from_attributes=True)
     code: str = Field(..., max_length=3, description="Currency code, e.g., 'USD'")
     name: str = Field(
         ...,
@@ -14,9 +16,6 @@ class CurrencyBase(BaseModel):
     rate: float = Field(
         ..., description="Exchange rate relative to a base currency (e.g., EUR)"
     )
-
-    class Config:
-        from_attributes = True
 
 
 class CurrencyCreate(CurrencyBase):
@@ -44,6 +43,9 @@ class CurrencyUpdate(BaseModel):
 
 class ConversionBase(BaseModel):
     """Base schema for currency conversion information."""
+
+    model_config = ConfigDict(from_attributes=True)
+
     base_currency: str = Field(
         ..., max_length=3, description="Base currency code, e.g., 'EUR'"
     )
@@ -51,9 +53,6 @@ class ConversionBase(BaseModel):
         ..., max_length=3, description="Target currency code, e.g., 'USD'"
     )
     amount: float = Field(..., description="Amount to be converted")
-
-    class Config:
-        from_attributes = True
 
 
 class ConversionCreate(ConversionBase):
@@ -69,7 +68,7 @@ class Conversion(ConversionBase):
 
 class ConversionDelete(BaseModel):
     """Used when deleting a conversion record."""
-    id: int = Field(..., description="ID of the conversion record to delete")
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int = Field(..., description="ID of the conversion record to delete")
