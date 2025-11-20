@@ -1,5 +1,7 @@
 import pytest
 
+#TODO: setup test db connection here if needed
+# https://medium.com/@gnetkov/testing-fastapi-application-with-pytest-57080960fd62
 
 @pytest.fixture
 def mock_rates():
