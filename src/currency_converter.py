@@ -18,5 +18,4 @@ def convert_currency(base_currency: str, target_currency: str, amount: float, ra
         raise ValueError("Amount must be greater than zero.")
 
     conversion: float = round((target_rate / base_rate) * amount, 2)
-    print(f"{amount:,.2f} ({base_currency}) is: {conversion:,.2f} ({target_currency})")
     return conversion
