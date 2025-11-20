@@ -23,3 +23,12 @@ class Conversion(Base):
     timestamp = Column(
         TIMESTAMP(timezone=True), server_default=text("now()"), nullable=False
     )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "base_currency": self.base_currency,
+            "target_currency": self.target_currency,
+            "amount": self.amount,
+            "result": self.result,
+        }
