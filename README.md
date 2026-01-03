@@ -46,9 +46,13 @@ python main.py
 python -m pytest
 ```
 
+Run single test file:
+```commandline
+python -m pytest tests/integration/test_conversions.py::test_get_conversions
+```
+
 6. Run the application with mock data:
 ```bash
-cd src
 uvicorn src.main:app --reload
 ```
 
