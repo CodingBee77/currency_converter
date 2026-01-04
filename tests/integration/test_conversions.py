@@ -1,37 +1,31 @@
 from dotenv import load_dotenv
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
 from src import models
 from src.main import app
+from src.database import get_db
 
 import sys
 import os
 
+from tests.test_database import override_get_db
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
+
+load_dotenv()
+
+app.dependency_overrides[get_db] = override_get_db
 
 client = TestClient(app)
 
-load_dotenv()
-engine = create_engine(os.environ.get("DATABASE_URL"))
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-def test_get_conversions():
+def test_get_conversions(conversions, client):
     response = client.get("/conversions")
-    db = next(get_db())
-    all_conversions = db.query(models.Conversion).all()
-    all_conversions_json = [conversion.to_dict() for conversion in all_conversions]
+    all_conversions = conversions.query(models.Conversion).all()
+    all_conversions_json = [conv.to_dict() for conv in all_conversions]
+
     assert response.status_code == 200
+    assert len(response.json()) == 2
     assert response.json() == all_conversions_json
 
 
