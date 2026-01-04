@@ -1,7 +1,15 @@
+import os
 import pytest
+from sqlalchemy import create_engine, StaticPool
+from sqlalchemy.orm import Session
+from sqlalchemy_utils import database_exists, create_database
+from starlette.testclient import TestClient
 
-#TODO: setup test db connection here if needed
-# https://medium.com/@gnetkov/testing-fastapi-application-with-pytest-57080960fd62
+from src.database import Base, get_db
+from src.main import app
+from src.routers.conversions import create_conversion
+from src.schemas import ConversionCreate
+
 
 @pytest.fixture
 def mock_rates():
@@ -36,3 +44,69 @@ def different_mock_rates():
         {"code": "JPY", "name": "TBD", "rate": 158.099455}
     ]
 
+
+@pytest.fixture(scope="session")
+def db_engine():
+    TEST_DATABASE_URL = os.environ.get("TEST_DATABASE_URL")
+    engine = create_engine(TEST_DATABASE_URL)
+
+    if not TEST_DATABASE_URL:
+        TEST_DATABASE_URL = "sqlite:///:memory:"
+        engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False},
+                               poolclass=StaticPool)
+    else:
+        engine = create_engine(TEST_DATABASE_URL)
+
+    # only attempt to create database for non-sqlite backends
+    if not TEST_DATABASE_URL.startswith("sqlite"):
+        if not database_exists(TEST_DATABASE_URL):
+            create_database(TEST_DATABASE_URL)
+
+
+    Base.metadata.create_all(bind=engine)
+    yield engine
+    Base.metadata.drop_all(bind=engine)
+    engine.dispose()
+
+
+@pytest.fixture(scope="function")
+def db(db_engine):
+    connection = db_engine.connect()
+    transaction = connection.begin()
+    db = Session(bind=connection)
+    yield db
+
+    transaction.rollback()
+    connection.close()
+
+
+@pytest.fixture(scope="function")
+def client(db):
+    app.dependency_overrides[get_db] = lambda: db
+
+    with TestClient(app) as c:
+        yield c
+
+    app.dependency_overrides.clear()
+
+
+@pytest.fixture
+def conversions(db):
+    conversion_usd_to_eur = ConversionCreate(
+        base_currency="USD",
+        target_currency="EUR",
+        amount=100
+    )
+    conversion_chf_to_pln = ConversionCreate(
+        base_currency="CHF",
+        target_currency="PLN",
+        amount=74,
+    )
+    create_conversion(
+        conversion=conversion_usd_to_eur,
+        db=db
+    )
+    create_conversion(
+        conversion=conversion_chf_to_pln, db=db
+    )
+    return db
