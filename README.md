@@ -56,5 +56,22 @@ python -m pytest tests/integration/test_conversions.py::test_get_conversions
 uvicorn src.main:app --reload
 ```
 
+ 
+Shortcuts for development:
+- Start the application with auto-reload:
+  ```bash
+  uvicorn src.main:app --reload
+  ```
+  
+- Run tests with detailed output:
+  ```bash
+  python -m pytest -v
+  ```
+
+- Check code formatting with Black:
+  ```bash
+  black . && isort . && flake8 .
+  ```
+
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
