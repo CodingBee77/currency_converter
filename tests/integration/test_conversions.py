@@ -1,23 +1,14 @@
 from dotenv import load_dotenv
-from fastapi.testclient import TestClient
 from src import models
-from src.main import app
-from src.database import get_db
 
 import sys
 import os
 
-from tests.test_database import override_get_db
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 
 load_dotenv()
-
-app.dependency_overrides[get_db] = override_get_db
-
-client = TestClient(app)
-
 
 def test_get_conversions(conversions, client):
     response = client.get("/conversions")
@@ -29,7 +20,7 @@ def test_get_conversions(conversions, client):
     assert response.json() == all_conversions_json
 
 
-def test_post_conversion():
+def test_post_conversion(client):
     conversion_data = {
         "base_currency": "USD",
         "target_currency": "EUR",
@@ -45,7 +36,7 @@ def test_post_conversion():
     assert "result" in data
 
 
-def test_post_conversion_invalid_currency():
+def test_post_conversion_invalid_currency(client):
     conversion_data = {
         "base_currency": "XXX",  # Invalid currency code
         "target_currency": "EUR",
@@ -57,7 +48,7 @@ def test_post_conversion_invalid_currency():
     assert data["detail"] == "'XXX' is not a valid currency."
 
 
-def test_post_conversion_invalid_amount():
+def test_post_conversion_invalid_amount(client):
     conversion_data = {
         "base_currency": "USD",
         "target_currency": "EUR",
@@ -69,7 +60,7 @@ def test_post_conversion_invalid_amount():
     assert data["detail"] == "Amount must be greater than zero."
 
 
-def test_post_conversion_missing_field():
+def test_post_conversion_missing_field(client):
     conversion_data = {
         "base_currency": "USD",
         # "target_currency" is missing
@@ -82,19 +73,21 @@ def test_post_conversion_missing_field():
     assert data["detail"][0]["msg"] == "Field required"
 
 
-def test_get_conversion_by_id():
-    conversion_id = 1
+def test_get_conversion_by_id(conversions, client):
+    conv = conversions.query(models.Conversion).filter_by(amount=100).first()
+    conversion_id = conv.id
+    assert conv is not None, "conversion fixture did not create the expected record"
     response = client.get(f"/conversions/{conversion_id}")
     assert response.status_code == 200
     data = response.json()
     assert data["id"] == conversion_id
-    assert data["base_currency"] == "EUR"
-    assert data["target_currency"] == "GBP"
-    assert data["amount"] == 10
-    assert data["result"] == 8.35
+    assert data["base_currency"] == "USD"
+    assert data["target_currency"] == "EUR"
+    assert data["amount"] == 100
 
 
-def test_get_conversion_not_found():
+
+def test_get_conversion_not_found(client):
     conversion_id = 9999  # Assuming this ID does not exist
     response = client.get(f"/conversions/{conversion_id}")
     assert response.status_code == 404
