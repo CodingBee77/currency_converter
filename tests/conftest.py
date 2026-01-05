@@ -9,7 +9,6 @@ from src.database import Base, get_db
 from src.main import app
 from src.routers.conversions import create_conversion
 from src.schemas import ConversionCreate
-from tests.test_database import override_get_db
 
 
 @pytest.fixture
