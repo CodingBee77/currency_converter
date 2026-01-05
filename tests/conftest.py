@@ -1,7 +1,8 @@
 import os
+from typing import Generator, List
 
 import pytest
-from sqlalchemy import create_engine
+from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy_utils import create_database, database_exists
 from starlette.testclient import TestClient
@@ -13,7 +14,7 @@ from src.schemas import ConversionCreate
 
 
 @pytest.fixture
-def mock_rates():
+def mock_rates() -> List[dict]:
     return [
         {"code": "USD", "name": "TBD", "rate": 1.035936},
         {"code": "EUR", "name": "TBD", "rate": 1.0},
@@ -24,7 +25,7 @@ def mock_rates():
 
 
 @pytest.fixture
-def another_mock_rates():
+def another_mock_rates() -> List[dict]:
     return [
         {"code": "HKD", "name": "TBD", "rate": 8.065967},
         {"code": "EUR", "name": "TBD", "rate": 1.0},
@@ -35,7 +36,7 @@ def another_mock_rates():
 
 
 @pytest.fixture
-def different_mock_rates():
+def different_mock_rates() -> List[dict]:
     return [
         {"code": "EUR", "name": "TBD", "rate": 1.0},
         {"code": "USD", "name": "TBD", "rate": 1.035936},
@@ -47,8 +48,12 @@ def different_mock_rates():
 
 
 @pytest.fixture(scope="session")
-def db_engine():
-    engine = create_engine(os.environ.get("TEST_DATABASE_URL"))
+def db_engine() -> Generator[Engine, None, None]:
+    db_url = os.getenv("TEST_DATABASE_URL")
+    if not db_url:
+        raise RuntimeError("TEST_DATABASE_URL environment variable not set")
+
+    engine = create_engine(db_url)
     if not database_exists:
         create_database(engine.url)
 
@@ -57,7 +62,7 @@ def db_engine():
 
 
 @pytest.fixture(scope="function")
-def db(db_engine):
+def db(db_engine: Engine) -> Generator[Session, None, None]:
     connection = db_engine.connect()
     transaction = connection.begin()
     db = Session(bind=connection)
@@ -68,7 +73,7 @@ def db(db_engine):
 
 
 @pytest.fixture(scope="function")
-def client(db):
+def client(db) -> Generator[TestClient, None, None]:
     app.dependency_overrides[get_db] = lambda: db
 
     with TestClient(app) as c:
@@ -78,7 +83,7 @@ def client(db):
 
 
 @pytest.fixture
-def conversions(db):
+def conversions(db: Session) -> Session:
     conversion_usd_to_eur = ConversionCreate(
         base_currency="USD", target_currency="EUR", amount=100
     )
@@ -89,4 +94,19 @@ def conversions(db):
     )
     create_conversion(conversion=conversion_usd_to_eur, db=db)
     create_conversion(conversion=conversion_chf_to_pln, db=db)
+    return db
+
+@pytest.fixture
+def currencies(db: Session) -> Session:
+    from src.models import Currency
+
+    currencies = [
+        Currency(code="USD", name="United States Dollar", rate=1.035936),
+        Currency(code="EUR", name="Euro", rate=1.0),
+        Currency(code="GBP", name="British Pound Sterling", rate=0.834578),
+        Currency(code="JPY", name="Japanese Yen", rate=158.099455),
+        Currency(code="INR", name="Indian Rupee", rate=90.706235),
+    ]
+    db.add_all(currencies)
+    db.commit()
     return db
