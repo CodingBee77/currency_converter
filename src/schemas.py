@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # TODO: Add validation to ensure currency codes are valid ISO 4217 codes.
@@ -57,11 +57,13 @@ class ConversionBase(BaseModel):
 
 class ConversionCreate(ConversionBase):
     """Used when creating a new conversion."""
+
     pass
 
 
 class Conversion(ConversionBase):
     """Schema for currency conversion with result included."""
+
     id: int = Field(..., description="ID of the conversion record")
     result: float = Field(..., description="Result of the conversion")
 

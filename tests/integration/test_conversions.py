@@ -1,14 +1,15 @@
-from dotenv import load_dotenv
-from src import models
-
-import sys
 import os
+import sys
 
+from dotenv import load_dotenv
+
+from src import models
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 
 load_dotenv()
+
 
 def test_get_conversions(conversions, client):
     response = client.get("/conversions")
@@ -21,11 +22,7 @@ def test_get_conversions(conversions, client):
 
 
 def test_post_conversion(client):
-    conversion_data = {
-        "base_currency": "USD",
-        "target_currency": "EUR",
-        "amount": 50
-    }
+    conversion_data = {"base_currency": "USD", "target_currency": "EUR", "amount": 50}
     response = client.post("/conversions/", json=conversion_data)
     assert response.status_code == 201
     data = response.json()
@@ -40,7 +37,7 @@ def test_post_conversion_invalid_currency(client):
     conversion_data = {
         "base_currency": "XXX",  # Invalid currency code
         "target_currency": "EUR",
-        "amount": 50
+        "amount": 50,
     }
     response = client.post("/conversions/", json=conversion_data)
     assert response.status_code == 400
@@ -52,7 +49,7 @@ def test_post_conversion_invalid_amount(client):
     conversion_data = {
         "base_currency": "USD",
         "target_currency": "EUR",
-        "amount": -10  # Invalid amount
+        "amount": -10,  # Invalid amount
     }
     response = client.post("/conversions/", json=conversion_data)
     assert response.status_code == 400
@@ -64,7 +61,7 @@ def test_post_conversion_missing_field(client):
     conversion_data = {
         "base_currency": "USD",
         # "target_currency" is missing
-        "amount": 50
+        "amount": 50,
     }
     response = client.post("/conversions/", json=conversion_data)
     assert response.status_code == 422  # Unprocessable Entity
@@ -84,7 +81,6 @@ def test_get_conversion_by_id(conversions, client):
     assert data["base_currency"] == "USD"
     assert data["target_currency"] == "EUR"
     assert data["amount"] == 100
-
 
 
 def test_get_conversion_not_found(client):

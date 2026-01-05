@@ -11,7 +11,9 @@ def get_currency(currency: str, rates: List[dict]) -> float:
         raise ValueError(f"'{currency}' is not a valid currency.")
 
 
-def convert_currency(base_currency: str, target_currency: str, amount: float, rates: List[dict]) -> float:
+def convert_currency(
+    base_currency: str, target_currency: str, amount: float, rates: List[dict]
+) -> float:
     base_rate = get_currency(base_currency, rates)
     target_rate = get_currency(target_currency, rates)
     if amount <= 0:

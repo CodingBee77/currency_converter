@@ -1,8 +1,9 @@
 import os
+
 import pytest
-from sqlalchemy import create_engine, StaticPool
+from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-from sqlalchemy_utils import database_exists, create_database
+from sqlalchemy_utils import create_database, database_exists
 from starlette.testclient import TestClient
 
 from src.database import Base, get_db
@@ -18,7 +19,7 @@ def mock_rates():
         {"code": "EUR", "name": "TBD", "rate": 1.0},
         {"code": "GBP", "name": "TBD", "rate": 0.834578},
         {"code": "JPY", "name": "TBD", "rate": 158.099455},
-        {"code": "INR", "name": "TBD", "rate": 90.706235}
+        {"code": "INR", "name": "TBD", "rate": 90.706235},
     ]
 
 
@@ -29,7 +30,7 @@ def another_mock_rates():
         {"code": "EUR", "name": "TBD", "rate": 1.0},
         {"code": "CNH", "name": "TBD", "rate": 7.557405},
         {"code": "JPY", "name": "TBD", "rate": 158.099455},
-        {"code": "AUD", "name": "TBD", "rate": 1.487268}
+        {"code": "AUD", "name": "TBD", "rate": 1.487268},
     ]
 
 
@@ -41,7 +42,7 @@ def different_mock_rates():
         {"code": "GBP", "name": "TBD", "rate": 0.834578},
         {"code": "AUD", "name": "TBD", "rate": 1.487268},
         {"code": "CNY", "name": "TBD", "rate": 7.553429},
-        {"code": "JPY", "name": "TBD", "rate": 158.099455}
+        {"code": "JPY", "name": "TBD", "rate": 158.099455},
     ]
 
 
@@ -53,6 +54,7 @@ def db_engine():
 
     Base.metadata.create_all(bind=engine)
     yield engine
+
 
 @pytest.fixture(scope="function")
 def db(db_engine):
@@ -78,20 +80,13 @@ def client(db):
 @pytest.fixture
 def conversions(db):
     conversion_usd_to_eur = ConversionCreate(
-        base_currency="USD",
-        target_currency="EUR",
-        amount=100
+        base_currency="USD", target_currency="EUR", amount=100
     )
     conversion_chf_to_pln = ConversionCreate(
         base_currency="CHF",
         target_currency="PLN",
         amount=74,
     )
-    create_conversion(
-        conversion=conversion_usd_to_eur,
-        db=db
-    )
-    create_conversion(
-        conversion=conversion_chf_to_pln, db=db
-    )
+    create_conversion(conversion=conversion_usd_to_eur, db=db)
+    create_conversion(conversion=conversion_chf_to_pln, db=db)
     return db

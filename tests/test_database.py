@@ -1,11 +1,11 @@
 import os
+
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import Session, sessionmaker
 
 from src.database import get_db
 from src.main import app
-
 
 load_dotenv()
 
@@ -27,5 +27,6 @@ def override_get_db():
     db.close()
     transaction.rollback()
     connection.close()
+
 
 app.dependency_overrides[get_db] = override_get_db
