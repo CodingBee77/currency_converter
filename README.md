@@ -38,7 +38,7 @@ pip install -r requirements.txt
 4. Usage of the script
 Run the application:
 ```commandline
-python main.py
+python run_script.py
 ```
 
 5. Run tests:
