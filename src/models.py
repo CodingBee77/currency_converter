@@ -12,6 +12,14 @@ class Currency(Base):
         Float, nullable=False
     )  # Exchange rate relative to a base currency (e.g., EUR)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "code": self.code,
+            "name": self.name,
+            "rate": self.rate,
+        }
+
 
 class Conversion(Base):
     __tablename__ = "conversions"
