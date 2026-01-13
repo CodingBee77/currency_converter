@@ -51,18 +51,13 @@ Run single test file:
 python -m pytest tests/integration/test_conversions.py::test_get_conversions
 ```
 
-6. Run the application with mock data:
+6. Run the application:
 ```bash
 uvicorn src.main:app --reload
 ```
 
  
 Shortcuts for development:
-- Start the application with auto-reload:
-  ```bash
-  uvicorn src.main:app --reload
-  ```
-  
 - Run tests with detailed output:
   ```bash
   python -m pytest -v
