@@ -8,3 +8,5 @@ fastapi~=0.120.1
 sqlalchemy~=2.0.44
 pydantic~=2.12.3
 pytest-cov==7.0.0
+SQLAlchemy==2.0.44
+SQLAlchemy-Utils==0.42.0
