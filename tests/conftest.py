@@ -96,6 +96,7 @@ def conversions(db: Session) -> Session:
     create_conversion(conversion=conversion_chf_to_pln, db=db)
     return db
 
+
 @pytest.fixture
 def currencies(db: Session) -> Session:
     from src.models import Currency
