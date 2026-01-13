@@ -10,15 +10,13 @@ from src.database import get_db
 router = APIRouter(prefix="/currencies", tags=["currencies"])
 
 
-@router.get("/", response_model=List[schemas.CurrencyBase])
+@router.get("/", response_model=List[schemas.Currency])
 def get_currencies(db: Session = Depends(get_db)):
     currencies = db.query(models.Currency).all()
     return currencies
 
 
-@router.get(
-    "/{code}", response_model=schemas.CurrencyBase, status_code=status.HTTP_200_OK
-)
+@router.get("/{code}", response_model=schemas.Currency, status_code=status.HTTP_200_OK)
 def get_currency_by_code(code: str, db: Session = Depends(get_db)):
     currency = db.query(models.Currency).filter(models.Currency.code == code).first()
     if currency is None:

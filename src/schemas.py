@@ -24,6 +24,12 @@ class CurrencyCreate(CurrencyBase):
     pass
 
 
+class Currency(CurrencyBase):
+    """Schema for currency with ID included."""
+
+    id: int = Field(..., description="ID of the currency")
+
+
 class CurrencyUpdate(BaseModel):
     """Used when updating a currency (partial update allowed)."""
 
