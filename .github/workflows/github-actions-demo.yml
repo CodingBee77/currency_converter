@@ -1,4 +1,4 @@
-name: Currency Converter Workflow
+name: Python application
 
 on:
   push:
@@ -9,10 +9,16 @@ on:
       - master
 
 jobs:
-  test-currency-converter:
+  build-and-test:
     runs-on: ubuntu-latest
     container:
         image: python:3.10
+
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+      API_KEY: ${{ secrets.API_KEY }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -20,7 +26,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
