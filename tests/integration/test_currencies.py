@@ -1,7 +1,6 @@
 import os
 import sys
 
-import pytest
 from dotenv import load_dotenv
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError, ProgrammingError

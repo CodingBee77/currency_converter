@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import (Column, DateTime, Float, Integer, String,
-                        text)
+from sqlalchemy import Column, DateTime, Float, Integer, String, text
 
 from src.database import Base
 
