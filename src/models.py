@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from sqlalchemy import TIMESTAMP, Column, Float, Integer, String, text, DateTime
+from sqlalchemy import (Column, DateTime, Float, Integer, String,
+                        text)
 
 from src.database import Base
 
@@ -31,7 +32,10 @@ class Conversion(Base):
     amount = Column(Float, nullable=False)
     result = Column(Float, nullable=False)
     timestamp = Column(
-        DateTime, default=datetime.utcnow, server_default=text("CURRENT_TIMESTAMP"), nullable=False
+        DateTime,
+        default=datetime.utcnow,
+        server_default=text("CURRENT_TIMESTAMP"),
+        nullable=False,
     )
 
     def to_dict(self):
