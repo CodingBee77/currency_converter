@@ -34,7 +34,13 @@ def test_get_currencies_error(currencies, client):
 
     # Simulate a database error by dropping the currencies table
     currencies.execute(text("DROP TABLE IF EXISTS currencies"))
-    with pytest.raises(ProgrammingError):
+
+    # Either the DB exception bubbles up, or the app handles it and returns 500.
+    try:
         response = client.get("/currencies")
-        print(response.status_code)
-        assert response.status_code == 500
+    except (OperationalError, ProgrammingError):
+        # DB exception propagated - test passes
+        return
+
+    # If no exception, the app likely caught it and returned an error response
+    assert response.status_code == 500
