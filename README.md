@@ -55,7 +55,10 @@ python -m pytest tests/integration/test_conversions.py::test_get_conversions
 ```bash
 uvicorn src.main:app --reload
 ```
-
+to redirect to the Interactive Swagger documentation go to:
+```
+http://127.0.0.1:8000/docs
+```
  
 Shortcuts for development:
 - Run tests with detailed output:

@@ -3,8 +3,12 @@ install: requirements.txt
 	pip install -r requirements.txt
 
 run:
+	@echo "Starting the script..."
+	python run_script.py
+
+app:
 	@echo "Starting the application..."
-	python ./main.py
+	uvicorn src.main:app --reload
 
 test:
 	@echo "Running tests..."
@@ -13,7 +17,3 @@ test:
 format:
 	@echo "Formatting code with isort, black, and flake8..."
 	isort . && black . && flake8 .
-
-pretty:
-	@echo "Running code formatters..."
-	isort . && black .
